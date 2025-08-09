@@ -29,9 +29,9 @@ export const CAMPUS_DOGS: Dog[] = [
     creditScore: 847,
     careerAspirations: ['Department Chair', 'Published author', 'TED Talk speaker'],
     recentThoughts: [
-      'What if the mailman is actually a Platonic ideal?',
-      'Today I pondered the ethics of stealing tennis balls',
-      'Descartes was wrong - I play, therefore I am'
+      'Ivan ethaa',
+      'Iyyalkk onnum vere pani ille',
+      'Thanikk enthaa vayee'
     ],
     
     approachAdvice: 'Begin with a philosophical question or complex ethical dilemma',

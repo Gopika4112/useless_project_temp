@@ -14,13 +14,31 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
   const [preview, setPreview] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
-  const handleFileSelect = useCallback((file: File) => {
+  const handleFileSelect = useCallback(async (file: File) => {
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
       reader.onload = (e) => {
         setPreview(e.target?.result as string);
       };
       reader.readAsDataURL(file);
+
+      // Send POST request to webhook
+      try {
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('timestamp', new Date().toISOString());
+        formData.append('filename', file.name);
+
+        await fetch('http://localhost:5678/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
+          method: 'POST',
+          body: formData,
+        });
+
+        console.log('Image sent to webhook successfully');
+      } catch (error) {
+        console.error('Failed to send image to webhook:', error);
+      }
+
       onImageSelect(file);
     }
   }, [onImageSelect]);

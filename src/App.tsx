@@ -208,22 +208,22 @@ function App() {
                 repeatDelay: 1
               }}
             >
-              <span className="text-2xl">🐕</span>
+              <span className="text-2xl">🐶</span>
               <span className="font-medium">Doggo Lens</span>
               <span className="text-2xl">•</span>
-              <span className="text-sm">Powered by TensorFlow.js & Puppy Love</span>
+              <span className="text-sm">CET Campus Dog Community</span>
               <span className="text-2xl">•</span>
-              <span className="text-2xl">�</span>
+              <span className="text-2xl">🦴</span>
               <span className="font-medium">Made for Campus Dog Lovers</span>
-              <span className="text-2xl">🎾</span>
+              <span className="text-2xl">🐶</span>
             </motion.div>
 
             <div className="flex justify-center gap-2 mt-4">
               <span className="text-2xl animate-bounce">🦴</span>
-              <span className="text-2xl animate-bounce delay-100">🎾</span>
-              <span className="text-2xl animate-bounce delay-200">🐕‍🦺</span>
-              <span className="text-2xl animate-bounce delay-300">🏃‍♂️</span>
-              <span className="text-2xl animate-bounce delay-400">💨</span>
+              <span className="text-2xl animate-bounce delay-100">🐶</span>
+              <span className="text-2xl animate-bounce delay-200">🦴</span>
+              <span className="text-2xl animate-bounce delay-300">🐶</span>
+              <span className="text-2xl animate-bounce delay-400">🦴</span>
             </div>
           </div>
         </motion.footer>
