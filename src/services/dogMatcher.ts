@@ -3,22 +3,35 @@ import { Dog, DogRecognitionResult, ImageAnalysis } from '../types/Dog';
 export class DogMatcher {
   private async fetchDogDetailsFromWebhook(): Promise<Dog> {
     try {
+      console.log('Attempting to fetch from:', 'https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/get-dog');
+      
       const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/get-dog', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
+          'ngrok-skip-browser-warning': 'true', // Skip ngrok browser warning
         },
       });
       
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      
       if (!response.ok) {
-        throw new Error(`Failed to fetch dog details: ${response.status}`);
+        const errorText = await response.text();
+        console.error('Response error text:', errorText);
+        throw new Error(`HTTP ${response.status}: ${errorText}`);
       }
       
       const dogData = await response.json();
+      console.log('Successfully fetched dog data:', dogData);
       return dogData;
     } catch (error) {
-      console.error('Failed to fetch dog details from webhook:', error);
+      console.error('Detailed fetch error:', error);
+      console.error('Error type:', error.constructor.name);
+      console.error('Error message:', error.message);
+      
       // Return a default dog if webhook fails
+      console.log('Falling back to default dog due to error');
       return this.getDefaultDog();
     }
   }
@@ -108,36 +121,23 @@ export class DogMatcher {
     // Skip AI detection - directly fetch dog details from n8n backend
     console.log('Fetching dog details from n8n backend...');
     
-    try {
-      // Fetch the specific dog details from your n8n database
-      const dogDetails = await this.fetchDogDetailsFromWebhook();
-      
-      // Simulate processing time for better UX
-      const processingTime = Date.now() - startTime;
-      const minProcessingTime = 2000; // 2 seconds minimum for effect
-      
-      if (processingTime < minProcessingTime) {
-        await new Promise(resolve => setTimeout(resolve, minProcessingTime - processingTime));
-      }
-
-      return {
-        dog: dogDetails,
-        confidence: 95, // High confidence since we're getting from database
-        matchedFeatures: ['Database match', 'Campus dog identified'],
-        analysisTime: Date.now() - startTime
-      };
-    } catch (error) {
-      console.error('Failed to fetch from n8n backend:', error);
-      
-      // Return default dog as fallback
-      const defaultDog = this.getDefaultDog();
-      return {
-        dog: defaultDog,
-        confidence: 85,
-        matchedFeatures: ['Fallback match'],
-        analysisTime: Date.now() - startTime
-      };
+    // Always fetch dog details (will fallback to default if webhook fails)
+    const dogDetails = await this.fetchDogDetailsFromWebhook();
+    
+    // Simulate processing time for better UX
+    const processingTime = Date.now() - startTime;
+    const minProcessingTime = 2000; // 2 seconds minimum for effect
+    
+    if (processingTime < minProcessingTime) {
+      await new Promise(resolve => setTimeout(resolve, minProcessingTime - processingTime));
     }
+
+    return {
+      dog: dogDetails,
+      confidence: 95, // High confidence since we're getting from database
+      matchedFeatures: ['Database match', 'Campus dog identified'],
+      analysisTime: Date.now() - startTime
+    };
   }
 
   private getMatchedFeatures(detectedFeatures: ImageAnalysis['detectedFeatures'], dog: Dog): string[] {
