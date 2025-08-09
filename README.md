@@ -62,7 +62,7 @@ For n8n workflow download the this file - ![N8N Workflow](https://github.com/Gop
 
 ![Screenshot3](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20222956.png)
 
-# Diagrams
+# N8N Architecture
 ![Workflow](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20230536.png)
 
 #
