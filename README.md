@@ -43,3 +43,10 @@ git clone https://github.com/your-repo/doggo-lens.git
 cd doggo-lens
 npm install
 npm add framer-motion@latest @tensorflow/tfjs@latest @tensorflow-models/mobilenet@latest
+```
+#### Run
+```bash
+npm run dev
+```
+
+
