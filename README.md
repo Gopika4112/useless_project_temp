@@ -53,7 +53,7 @@ For n8n workflow download the this file - ![N8N Workflow](https://github.com/Gop
 ### Project Documentation
 
 
-# Screenshots (Add at least 3)
+# Screenshots
 ![Screenshot1](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223006.png)
 
 ![Screenshot2](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223014.png)
