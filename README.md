@@ -1,44 +1,51 @@
 <img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
 
 
-# [Project Name] 🎯
-
+# Doggo Lens 🐶🔍
 
 ## Basic Details
-### Team Name: [Name]
-
+### Team Name:Onninum Kollaathavar
 
 ### Team Members
-- Team Lead: [Name] - [College]
-- Member 2: [Name] - [College]
-- Member 3: [Name] - [College]
+- Member 1: R Vaishnav Raj - College of Engineering Trivandrum
+- Member 2: Gopika Sreekumar - College of Engineering Trivandrum
 
 ### Project Description
-[2-3 lines about what your project does]
+Google Lens, but for campus dogs. Take a picture of a dog in CET, and instantly know their name, how friendly or aggressive they are, what food lures them in, their favorite campus hangouts, their biggest triggers, and even their bite history — complete with people's reviews.
 
 ### The Problem (that doesn't exist)
-[What ridiculous problem are you solving?]
+You’re walking through CET. A cute dog stares at you. Is it a friend? Is it a foe? Or is it the one that bit Noel Chettan last semester? The suspense is unbearable. We must solve this *pressing* issue.
 
 ### The Solution (that nobody asked for)
-[How are you solving it? Keep it fun!]
+We built **Doggo Lens** — an AI-powered lens that lets you snap a dog’s pic and get its full profile: name, friendliness score (1–10), triggers, favorite snacks, campus location habits, bite stats, and user-submitted reviews. It’s like Tinder, but for knowing whether you should pet or run.
+
+---
 
 ## Technical Details
 ### Technologies/Components Used
 For Software:
-- [Languages used]
-- [Frameworks used]
-- [Libraries used]
-- [Tools used]
+- **Languages:** JavaScript, Python
+- **Frameworks:** React
+- **Libraries:** TensorFlow.js (for image classification), Supabase (database)
+- **Tools:** n8n (AI agent workflows), GitHub, Vercel
 
 For Hardware:
-- [List main components]
-- [List specifications]
-- [List tools required]
+- High-end laptop (RGB lights for performance boost, obviously)
+- Extra white mechanical keyboard with *too many* RGB lights for added rizz
+- Gaming mouse with hypnotic blinking lights
+- Smartphone with camera for taking dog pics
+
+---
 
 ### Implementation
 For Software:
-# Installation
-[commands]
+
+#### Installation
+```bash
+git clone https://github.com/your-repo/doggo-lens.git
+cd doggo-lens
+npm install
+
 
 # Run
 [commands]
