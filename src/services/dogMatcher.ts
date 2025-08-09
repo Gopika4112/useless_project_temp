@@ -1,7 +1,27 @@
 import { Dog, DogRecognitionResult, ImageAnalysis } from '../types/Dog';
-import { CAMPUS_DOGS } from '../data/campusDogs';
 
 export class DogMatcher {
+  private async fetchDogsFromWebhook(): Promise<Dog[]> {
+    try {
+      const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/dogs', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      
+      if (!response.ok) {
+        throw new Error(`Failed to fetch dogs: ${response.status}`);
+      }
+      
+      const dogs = await response.json();
+      return dogs;
+    } catch (error) {
+      console.error('Failed to fetch dogs from webhook:', error);
+      // Fallback to empty array or throw error
+      throw new Error('Unable to fetch dog database');
+    }
+  }
   private calculateSimilarityScore(detectedFeatures: ImageAnalysis['detectedFeatures'], dog: Dog): number {
     let score = 0;
     let maxScore = 0;
@@ -47,8 +67,11 @@ export class DogMatcher {
       throw new Error('No dog detected in image');
     }
 
+    // Fetch dogs from webhook instead of static data
+    const campusDogs = await this.fetchDogsFromWebhook();
+
     // Calculate similarity scores for all campus dogs
-    const scoredDogs = CAMPUS_DOGS.map(dog => ({
+    const scoredDogs = campusDogs.map(dog => ({
       dog,
       score: this.calculateSimilarityScore(analysis.detectedFeatures, dog),
       matchedFeatures: this.getMatchedFeatures(analysis.detectedFeatures, dog)
