@@ -176,13 +176,12 @@ function App() {
         <footer className="text-center mt-16 py-8 text-gray-500 text-sm">
           <div className="space-y-2">
             <p>
-              Doggo Lens • Powered by TensorFlow.js • 
+              Doggo Lens • Powered Cet Dogs Campus Community • 
               <span className="mx-2">🐕</span>
-              Made with ❤️ for campus dog lovers
+              Made with ❤️ for campus dog lovers and haters
             </p>
             <p className="text-xs">
-              Disclaimer: All dog profiles are fictional and created for entertainment purposes. 
-              Any resemblance to real campus dogs is purely coincidental and absolutely hilarious.
+              
             </p>
           </div>
         </footer>
