@@ -14,6 +14,27 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
   const [preview, setPreview] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
 
+  // Test webhook connectivity
+  const testWebhookConnection = async () => {
+    console.log('🔍 Testing webhook connectivity...');
+    try {
+      const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
+        method: 'GET',
+        headers: {
+          'ngrok-skip-browser-warning': 'true',
+        },
+      });
+      console.log('Webhook test response:', response.status, response.statusText);
+    } catch (error) {
+      console.error('Webhook test failed:', error);
+    }
+  };
+
+  // Test on component mount
+  React.useEffect(() => {
+    testWebhookConnection();
+  }, []);
+
   const handleFileSelect = useCallback(async (file: File) => {
     if (file.type.startsWith('image/')) {
       const reader = new FileReader();
@@ -23,21 +44,57 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
       reader.readAsDataURL(file);
 
       // Send POST request to webhook
+      console.log('=== WEBHOOK POST REQUEST DEBUG ===');
+      console.log('File details:', {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        lastModified: file.lastModified
+      });
+      
       try {
         const formData = new FormData();
         formData.append('image', file);
         formData.append('timestamp', new Date().toISOString());
         formData.append('filename', file.name);
-
-        await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
+        
+        console.log('FormData contents:');
+        for (let pair of formData.entries()) {
+          console.log(pair[0], ':', pair[1]);
+        }
+        
+        console.log('Sending POST request to:', 'https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004');
+        
+        const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
           method: 'POST',
+          headers: {
+            'ngrok-skip-browser-warning': 'true',
+          },
           body: formData,
         });
 
-        console.log('Image sent to webhook successfully');
+        console.log('Response status:', response.status);
+        console.log('Response statusText:', response.statusText);
+        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+        
+        const responseText = await response.text();
+        console.log('Response body:', responseText);
+        
+        if (response.ok) {
+          console.log('✅ Image sent to webhook successfully');
+        } else {
+          console.error('❌ Webhook responded with error:', response.status, responseText);
+        }
       } catch (error) {
-        console.error('Failed to send image to webhook:', error);
+        console.error('❌ Failed to send image to webhook:', error);
+        console.error('Error details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
       }
+      
+      console.log('=== END WEBHOOK DEBUG ===');
 
       onImageSelect(file);
     }
