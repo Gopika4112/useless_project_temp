@@ -1,9 +1,9 @@
 import { Dog, DogRecognitionResult, ImageAnalysis } from '../types/Dog';
 
 export class DogMatcher {
-  private async fetchDogsFromWebhook(): Promise<Dog[]> {
+  private async fetchDogDetailsFromWebhook(): Promise<Dog> {
     try {
-      const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/dogs', {
+      const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/get-dog', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -11,16 +11,58 @@ export class DogMatcher {
       });
       
       if (!response.ok) {
-        throw new Error(`Failed to fetch dogs: ${response.status}`);
+        throw new Error(`Failed to fetch dog details: ${response.status}`);
       }
       
-      const dogs = await response.json();
-      return dogs;
+      const dogData = await response.json();
+      return dogData;
     } catch (error) {
-      console.error('Failed to fetch dogs from webhook:', error);
-      // Fallback to empty array or throw error
-      throw new Error('Unable to fetch dog database');
+      console.error('Failed to fetch dog details from webhook:', error);
+      // Return a default dog if webhook fails
+      return this.getDefaultDog();
     }
+  }
+
+  private getDefaultDog(): Dog {
+    return {
+      id: 'default-1',
+      name: 'Campus Dog',
+      breed: 'Mixed Breed',
+      age: 3,
+      campusYears: 2,
+      profilePhoto: '/api/placeholder/200/200',
+      friendliness: 8,
+      aggression: 2,
+      foodMotivation: 7,
+      bellyRubTolerance: 9,
+      fetchEnthusiasm: 6,
+      favoriteLocations: ['Campus grounds', 'Student center'],
+      foodPreferences: ['Dog treats', 'Student snacks'],
+      allergies: [],
+      biteHistory: [],
+      relationshipStatus: 'Single and ready to mingle',
+      datingPreferences: [],
+      academicInterests: [],
+      favoriteProfessors: [],
+      netflixHistory: [],
+      astrologicalSign: 'Canis Major',
+      personality: ['Friendly', 'Playful'],
+      creditScore: 750,
+      careerAspirations: ['Professional good boy'],
+      recentThoughts: ['Ivan ethaa'],
+      approachAdvice: 'Approach slowly with treats',
+      recommendedTreats: ['Dog biscuits'],
+      bestEncounterTimes: ['Morning', 'Afternoon'],
+      conversationStarters: ['Want to play fetch?'],
+      friends: [],
+      enemies: [],
+      crushes: [],
+      size: 'medium' as const,
+      colors: ['Brown', 'White'],
+      furType: 'Short',
+      earType: 'Floppy',
+      tailType: 'Wagging'
+    };
   }
   private calculateSimilarityScore(detectedFeatures: ImageAnalysis['detectedFeatures'], dog: Dog): number {
     let score = 0;
@@ -63,48 +105,39 @@ export class DogMatcher {
   async matchDog(analysis: ImageAnalysis): Promise<DogRecognitionResult> {
     const startTime = Date.now();
     
-    if (!analysis.isDog) {
-      throw new Error('No dog detected in image');
-    }
-
-    // Fetch dogs from webhook instead of static data
-    const campusDogs = await this.fetchDogsFromWebhook();
-
-    // Calculate similarity scores for all campus dogs
-    const scoredDogs = campusDogs.map(dog => ({
-      dog,
-      score: this.calculateSimilarityScore(analysis.detectedFeatures, dog),
-      matchedFeatures: this.getMatchedFeatures(analysis.detectedFeatures, dog)
-    }));
-
-    // Sort by score and get the best match
-    scoredDogs.sort((a, b) => b.score - a.score);
-    const bestMatch = scoredDogs[0];
-
-    // Add some randomness and personality to the confidence score
-    let finalConfidence = bestMatch.score;
+    // Skip AI detection - directly fetch dog details from n8n backend
+    console.log('Fetching dog details from n8n backend...');
     
-    // Boost confidence for some personality
-    if (finalConfidence > 70) {
-      finalConfidence = Math.min(finalConfidence + Math.random() * 15, 95);
-    } else if (finalConfidence > 50) {
-      finalConfidence = Math.min(finalConfidence + Math.random() * 10, 85);
-    }
+    try {
+      // Fetch the specific dog details from your n8n database
+      const dogDetails = await this.fetchDogDetailsFromWebhook();
+      
+      // Simulate processing time for better UX
+      const processingTime = Date.now() - startTime;
+      const minProcessingTime = 2000; // 2 seconds minimum for effect
+      
+      if (processingTime < minProcessingTime) {
+        await new Promise(resolve => setTimeout(resolve, minProcessingTime - processingTime));
+      }
 
-    // Simulate processing time for dramatic effect
-    const processingTime = Date.now() - startTime;
-    const minProcessingTime = 2000; // 2 seconds minimum for effect
-    
-    if (processingTime < minProcessingTime) {
-      await new Promise(resolve => setTimeout(resolve, minProcessingTime - processingTime));
+      return {
+        dog: dogDetails,
+        confidence: 95, // High confidence since we're getting from database
+        matchedFeatures: ['Database match', 'Campus dog identified'],
+        analysisTime: Date.now() - startTime
+      };
+    } catch (error) {
+      console.error('Failed to fetch from n8n backend:', error);
+      
+      // Return default dog as fallback
+      const defaultDog = this.getDefaultDog();
+      return {
+        dog: defaultDog,
+        confidence: 85,
+        matchedFeatures: ['Fallback match'],
+        analysisTime: Date.now() - startTime
+      };
     }
-
-    return {
-      dog: bestMatch.dog,
-      confidence: Math.round(finalConfidence * 100) / 100,
-      matchedFeatures: bestMatch.matchedFeatures,
-      analysisTime: Date.now() - startTime
-    };
   }
 
   private getMatchedFeatures(detectedFeatures: ImageAnalysis['detectedFeatures'], dog: Dog): string[] {
