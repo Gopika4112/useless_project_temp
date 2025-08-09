@@ -50,10 +50,10 @@ npm add framer-motion@latest @tensorflow/tfjs@latest @tensorflow-models/mobilene
 npm run dev
 ```
 For n8n workflow download the this file - ![N8N Workflow](https://github.com/Gopika4112/useless_project_temp/blob/main/Doggo_lens_n8n_workflow.json)
-### Project Documentation
 
+# Project Documentation
 
-# Screenshots
+## Screenshots
 ![Screenshot1](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223006.png)
 
 ![Screenshot2](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223014.png)
@@ -62,15 +62,15 @@ For n8n workflow download the this file - ![N8N Workflow](https://github.com/Gop
 
 ![Screenshot3](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20222956.png)
 
-# N8N Architecture
+## N8N Architecture
 ![Workflow](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20230536.png)
 
-#
-### Project Demo
-# Video 
+
+# Project Demo
+## Video 
 https://www.loom.com/share/73e52488036447139d74f9acaa489f4d?sid=144c409a-8f34-42a6-9906-4d36be253b64
 
-## Team Contributions
+# Team Contributions
 - Gopika: Website Frontend and Integration
 - Vaishnav : Backend, n8n and Integration
 
