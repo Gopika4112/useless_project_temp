@@ -13,27 +13,8 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
   const cameraInputRef = useRef<HTMLInputElement>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState(false);
-
-  // Test webhook connectivity
-  const testWebhookConnection = async () => {
-    console.log('🔍 Testing webhook connectivity...');
-    try {
-      const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
-        method: 'GET',
-        headers: {
-          'ngrok-skip-browser-warning': 'true',
-        },
-      });
-      console.log('Webhook test response:', response.status, response.statusText);
-    } catch (error) {
-      console.error('Webhook test failed:', error);
-    }
-  };
-
-  // Test on component mount
-  React.useEffect(() => {
-    testWebhookConnection();
-  }, []);
+  const [dogDetails, setDogDetails] = useState<any | null>(null);
+  const [isWaiting, setIsWaiting] = useState(false);
 
   const handleFileSelect = useCallback(async (file: File) => {
     if (file.type.startsWith('image/')) {
@@ -44,58 +25,57 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
       reader.readAsDataURL(file);
 
       // Send POST request to webhook
-      console.log('=== WEBHOOK POST REQUEST DEBUG ===');
-      console.log('File details:', {
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        lastModified: file.lastModified
-      });
-      
       try {
+        setIsWaiting(true);
+        setDogDetails(null);
         const formData = new FormData();
         formData.append('image', file);
         formData.append('timestamp', new Date().toISOString());
         formData.append('filename', file.name);
-        
-        console.log('FormData contents:');
-        for (let pair of formData.entries()) {
-          console.log(pair[0], ':', pair[1]);
-        }
-        
-        console.log('Sending POST request to:', 'https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004');
-        
-        const response = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
+
+        await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
           method: 'POST',
-          headers: {
-            'ngrok-skip-browser-warning': 'true',
-          },
           body: formData,
         });
 
-        console.log('Response status:', response.status);
-        console.log('Response statusText:', response.statusText);
-        console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-        
-        const responseText = await response.text();
-        console.log('Response body:', responseText);
-        
-        if (response.ok) {
-          console.log('✅ Image sent to webhook successfully');
-        } else {
-          console.error('❌ Webhook responded with error:', response.status, responseText);
+        console.log('Image sent to webhook successfully');
+
+        // Poll for dog details from backend every 2 seconds, max 5 tries
+        let tries = 0;
+        let found = false;
+        while (tries < 5 && !found) {
+          await new Promise(res => setTimeout(res, 2000));
+          try {
+            const resp = await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004/get-dog', {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+                'ngrok-skip-browser-warning': 'true',
+              },
+            });
+            if (resp.ok) {
+              const data = await resp.json();
+              if (data && data.name) {
+                setDogDetails(data);
+                found = true;
+                setIsWaiting(false);
+                break;
+              }
+            }
+          } catch (err) {
+            // Ignore, will retry
+          }
+          tries++;
+        }
+        if (!found) {
+          setDogDetails({ error: 'Unable to fetch dog details. Please try again later.' });
+          setIsWaiting(false);
         }
       } catch (error) {
-        console.error('❌ Failed to send image to webhook:', error);
-        console.error('Error details:', {
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        });
+        console.error('Failed to send image to webhook:', error);
+        setDogDetails({ error: 'Failed to send image to backend.' });
+        setIsWaiting(false);
       }
-      
-      console.log('=== END WEBHOOK DEBUG ===');
-
       onImageSelect(file);
     }
   }, [onImageSelect]);
@@ -143,6 +123,24 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
             >
               <X className="w-4 h-4" />
             </button>
+          )}
+          {isWaiting && (
+            <div className="mt-4 text-orange-700 text-center">Waiting for dog details from database...</div>
+          )}
+          {dogDetails && (
+            <div className="mt-4 p-4 bg-orange-50 rounded-lg shadow">
+              {dogDetails.error ? (
+                <div className="text-red-600">{dogDetails.error}</div>
+              ) : (
+                <>
+                  <div className="text-lg font-bold text-orange-900">{dogDetails.name}</div>
+                  <div className="text-orange-700">Place: {dogDetails.place || dogDetails.favoriteLocations?.join(', ')}</div>
+                  <div className="text-orange-700">Breed: {dogDetails.breed}</div>
+                  <div className="text-orange-700">Age: {dogDetails.age}</div>
+                  {/* Add more fields as needed */}
+                </>
+              )}
+            </div>
           )}
         </motion.div>
       ) : (
