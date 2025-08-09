@@ -49,34 +49,30 @@ npm add framer-motion@latest @tensorflow/tfjs@latest @tensorflow-models/mobilene
 ```bash
 npm run dev
 ```
+For n8n workflow download the this file - ![N8N Workflow](https://github.com/Gopika4112/useless_project_temp/blob/main/Doggo_lens_n8n_workflow.json)
 ### Project Documentation
 
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223006.png)
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223014.png)
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20223056.png)
+
+![Screenshot3](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20222956.png)
 
 # Diagrams
-![Workflow](Add your workflow/architecture diagram here)
-*Add caption explaining your workflow*
+![Workflow](https://github.com/Gopika4112/useless_project_temp/blob/main/Screenshot%202025-08-09%20230536.png)
+
 #
 ### Project Demo
-# Video
-[Add your demo video link here]
-*Explain what the video demonstrates*
-
-# Additional Demos
-[Add any extra demo materials/links]
+# Video 
+https://www.loom.com/share/73e52488036447139d74f9acaa489f4d?sid=144c409a-8f34-42a6-9906-4d36be253b64
 
 ## Team Contributions
-- [Name 1]: [Specific contributions]
-- [Name 2]: [Specific contributions]
-- [Name 3]: [Specific contributions]
+- Gopika: Website Frontend and Integration
+- Vaishnav : Backend, n8n and Integration
+
 
 
