@@ -6,7 +6,8 @@
 ### Team Members
 - Member 1: R Vaishnav Raj - College of Engineering Trivandrum
 - Member 2: Gopika Sreekumar - College of Engineering Trivandrum
-
+### Hosted Link
+https://fanciful-cobbler-b9e10c.netlify.app/
 ### Project Description
 Google Lens, but for campus dogs. Take a picture of a dog in CET, and instantly know their name, how friendly or aggressive they are, what food lures them in, their favorite campus hangouts, their biggest triggers, and even their bite history — complete with people's reviews.
 
@@ -64,7 +65,7 @@ npm run dev
 # Diagrams
 ![Workflow](Add your workflow/architecture diagram here)
 *Add caption explaining your workflow*
-
+#
 ### Project Demo
 # Video
 [Add your demo video link here]
