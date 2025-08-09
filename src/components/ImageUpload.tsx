@@ -29,7 +29,7 @@ export const ImageUpload: React.FC<ImageUploadProps> = ({ onImageSelect, isProce
         formData.append('timestamp', new Date().toISOString());
         formData.append('filename', file.name);
 
-        await fetch('http://localhost:5678/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
+        await fetch('https://inspired-bison-generally.ngrok-free.app/webhook-test/47a93820-b180-4665-b436-f1072e45d004', {
           method: 'POST',
           body: formData,
         });
